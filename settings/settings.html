@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="stylesheet" href="settings.css"/>
+  <title>Settings — Prompt Injection Blocker</title>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sb-name">Injection Blocker</div>
+        <div class="sb-ver">v1.0.0 · for Coursera</div>
+      </div>
+    </div>
+    <nav>
+      <a class="nav active" data-tab="patterns">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Patterns
+      </a>
+      <a class="nav" data-tab="general">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        General
+      </a>
+      <a class="nav" data-tab="about">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        About
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- ══ PATTERNS TAB ══ -->
+    <section class="tab active" id="tab-patterns">
+      <div class="page-head">
+        <div>
+          <h1>Injection Patterns</h1>
+          <p>Regex patterns used to detect and strip prompt injections from copied text.</p>
+        </div>
+        <div class="head-btns">
+          <button class="btn-ghost" id="btn-reset">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+            Reset defaults
+          </button>
+          <button class="btn-primary" id="btn-add">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Pattern
+          </button>
+        </div>
+      </div>
+
+      <!-- Live preview -->
+      <div class="playground">
+        <div class="pg-head">
+          <span class="pg-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Live Preview
+          </span>
+          <button class="btn-tiny" id="btn-sample">Load sample injection</button>
+        </div>
+        <div class="pg-body">
+          <div class="pg-col">
+            <label>Input</label>
+            <textarea id="pg-in" placeholder="Paste text here to test your patterns…"></textarea>
+          </div>
+          <div class="pg-arrow">→</div>
+          <div class="pg-col">
+            <label>Output <span id="pg-badge" class="pg-badge hidden">Injection stripped</span></label>
+            <textarea id="pg-out" readonly placeholder="Clean result…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pattern list -->
+      <div class="ptable">
+        <div class="phead">
+          <span class="c-on">On</span>
+          <span class="c-lbl">Label</span>
+          <span class="c-pat">Pattern <span class="tag">regex</span></span>
+          <span class="c-act"></span>
+        </div>
+        <div id="pbody"></div>
+      </div>
+
+      <div class="save-bar">
+        <span class="save-msg" id="patterns-msg"></span>
+        <button class="btn-primary" id="btn-save-patterns">Save Changes</button>
+      </div>
+    </section>
+
+    <!-- ══ GENERAL TAB ══ -->
+    <section class="tab" id="tab-general">
+      <div class="page-head">
+        <div><h1>General</h1><p>Configure extension behaviour.</p></div>
+      </div>
+      <div class="settings">
+        <div class="srow">
+          <div class="sinfo">
+            <span class="stitle">Protection enabled</span>
+            <span class="sdesc">Scan clipboard on every copy event on Coursera</span>
+          </div>
+          <label class="sw"><input type="checkbox" id="g-enabled"/><span class="sw-track"><span class="sw-thumb"></span></span></label>
+        </div>
+        <div class="srow">
+          <div class="sinfo">
+            <span class="stitle">Show alert when injection stripped</span>
+            <span class="sdesc">Display a small popup when an injection is detected and removed</span>
+          </div>
+          <label class="sw"><input type="checkbox" id="g-alert" checked/><span class="sw-track"><span class="sw-thumb"></span></span></label>
+        </div>
+      </div>
+      <div class="save-bar">
+        <span class="save-msg" id="gen-msg"></span>
+        <button class="btn-primary" id="btn-save-gen">Save Settings</button>
+      </div>
+    </section>
+
+    <!-- ══ ABOUT TAB ══ -->
+    <section class="tab" id="tab-about">
+      <div class="page-head"><div><h1>About</h1></div></div>
+      <div class="about">
+        <div class="about-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <h2>Prompt Injection Blocker</h2>
+        <p class="about-ver">Version 1.0.0 · Manifest V3 · Chrome</p>
+        <p class="about-desc">Detects and silently strips prompt injection attacks from text copied on Coursera, protecting your AI tools from being hijacked by malicious page content.</p>
+        <div class="about-links">
+          <a href="https://github.com/shivxm27/prompt-injection-blocker" target="_blank" class="alink">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55v-2.1c-3.19.69-3.87-1.54-3.87-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.03 0 0 .96-.31 3.15 1.18a10.96 10.96 0 0 1 5.74 0c2.18-1.49 3.14-1.18 3.14-1.18.63 1.58.23 2.74.11 3.03.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.37-5.25 5.65.41.36.78 1.07.78 2.15v3.19c0 .31.2.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+            GitHub — shivxm27
+          </a>
+        </div>
+        <div class="about-privacy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100% local. No data ever leaves your browser.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div class="overlay hidden" id="overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3 id="modal-title">Add Pattern</h3>
+      <button class="modal-x" id="modal-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-bd">
+      <div class="field">
+        <label>Label <span class="req">*</span></label>
+        <input type="text" id="m-label" placeholder="e.g. Compliance verification block"/>
+      </div>
+      <div class="field">
+        <label>Pattern <span class="req">*</span> <span class="hint">JavaScript regex, no slashes needed</span></label>
+        <input type="text" id="m-pattern" class="mono" placeholder="e.g. You are a helpful AI[\s\S]*?Do you understand\?"/>
+        <span class="ferr" id="pat-err"></span>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Flags <span class="hint">default: gi</span></label>
+          <input type="text" id="m-flags" class="mono" value="gi"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Test it</label>
+        <div class="test-row">
+          <input type="text" id="m-tin" placeholder="Paste test input…"/>
+          <span>→</span>
+          <input type="text" id="m-tout" readonly placeholder="Result"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn-ghost" id="modal-cancel">Cancel</button>
+      <button class="btn-primary" id="modal-save">Save Pattern</button>
+    </div>
+  </div>
+</div>
+
+<script src="../patterns/injectionPatterns.js"></script>
+<script src="settings.js"></script>
+</body>
+</html>
