@@ -19,12 +19,7 @@
 
 ---
 
-## Demo
 
-> 📹 *Record a short GIF using [ScreenToGif](https://www.screentogif.com/) (free, Windows) and drop it here.*
-> Show: copying injected text → amber pill appearing → pasting clean result.
-
----
 
 ## Table of Contents
 
