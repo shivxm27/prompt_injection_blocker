@@ -7,6 +7,9 @@
 ![Platform](https://img.shields.io/badge/platform-Chrome-4285F4?style=flat-square&logo=googlechrome&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-10b981?style=flat-square)
 ![Status](https://img.shields.io/badge/status-active-10b981?style=flat-square)
+[![Total Downloads](https://img.shields.io/github/downloads/shivxm27/prompt_injection_blocker/total?style=flat-square&color=brightgreen)](https://github.com/shivxm27/prompt_injection_blocker/releases)
+
+[![Latest Release Downloads](https://img.shields.io/github/downloads/shivxm27/prompt_injection_blocker/latest/total?style=flat-square&color=blue)](https://github.com/shivxm27/prompt_injection_blocker/releases)
 
 **A Chrome extension that detects and silently strips prompt injection attacks from text copied on Coursera.**
 
